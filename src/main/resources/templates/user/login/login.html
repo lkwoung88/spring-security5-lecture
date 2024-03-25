@@ -10,6 +10,9 @@
             <div class="panel">
                 <p>아이디와 비밀번호를 입력해주세요</p>
             </div>
+            <div th:if="${param.error}" class="form=group">
+                <span th:text="${exception}" class="alert alert-danger">잘못된 아이디나 암호입니다</span>
+            </div>
             <form th:action="@{/login_proc}" class="form-signin" method="post">
                 <!--            <form name="frm" id="frm" action="#" method="post" onsubmit="return false" class="form-signin">-->
                 <input th:type="hidden" th:value="secret" name="secret_key"/>
