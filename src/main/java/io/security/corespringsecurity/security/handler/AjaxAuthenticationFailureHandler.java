@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public class AjaxAutheticationFailureHandler implements AuthenticationFailureHandler {
+public class AjaxAuthenticationFailureHandler implements AuthenticationFailureHandler {
 
     private ObjectMapper objectMapper = new ObjectMapper();
 
@@ -29,7 +29,7 @@ public class AjaxAutheticationFailureHandler implements AuthenticationFailureHan
         if (exception instanceof BadCredentialsException) {
             errorMessage = "Invalid Username or Password";
         } else if (exception instanceof InsufficientAuthenticationException) {
-            errorMessage = "Invalid Sercret Key";
+            errorMessage = "Invalid Secret Key";
         } else if (exception instanceof CredentialsExpiredException) {
             errorMessage = "Expired password";
         }

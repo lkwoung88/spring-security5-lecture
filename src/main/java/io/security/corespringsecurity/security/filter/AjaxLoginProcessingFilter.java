@@ -45,6 +45,4 @@ public class AjaxLoginProcessingFilter extends AbstractAuthenticationProcessingF
         }
         return false;
     }
-
-
 }
