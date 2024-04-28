@@ -1,10 +1,12 @@
 package io.security.corespringsecurity.controller.login;
 
-import io.security.corespringsecurity.domain.Account;
+
+import io.security.corespringsecurity.domain.entity.Account;
 import io.security.corespringsecurity.security.token.AjaxAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,39 +21,40 @@ import java.security.Principal;
 @Controller
 public class LoginController {
 
-    @RequestMapping(value={"/login", "/api/login"})
-    public String login(@RequestParam(value = "error", required = false) String error,
-                        @RequestParam(value = "exception", required = false) String exception, Model model){
-        model.addAttribute("error",error);
-        model.addAttribute("exception",exception);
-        return "login";
-    }
+	@RequestMapping(value="/login")
+	public String login(@RequestParam(value = "error", required = false) String error,
+						@RequestParam(value = "exception", required = false) String exception, Model model){
+		model.addAttribute("error",error);
+		model.addAttribute("exception",exception);
+		return "login";
+	}
 
-    @GetMapping(value = "/logout")
-    public String logout(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	@GetMapping(value = "/logout")
+	public String logout(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null){
-            new SecurityContextLogoutHandler().logout(request, response, authentication);
-        }
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		if (authentication != null){
+			new SecurityContextLogoutHandler().logout(request, response, authentication);
+		}
 
-        return "redirect:/login";
-    }
+		return "redirect:/login";
+	}
 
-    @GetMapping(value={"/denied","/api/denied"})
-    public String accessDenied(@RequestParam(value = "exception", required = false) String exception, Principal principal, Model model) throws Exception {
+	@GetMapping(value="/denied")
+	public String accessDenied(@RequestParam(value = "exception", required = false) String exception, Principal principal, Model model) throws Exception {
 
-        Account account = null;
+		Account account = null;
 
-        if (principal instanceof UsernamePasswordAuthenticationToken) {
-            account = (Account) ((UsernamePasswordAuthenticationToken) principal).getPrincipal();
+		if (principal instanceof UsernamePasswordAuthenticationToken) {
+			account = (Account) ((UsernamePasswordAuthenticationToken) principal).getPrincipal();
 
-        }else if(principal instanceof AjaxAuthenticationToken){
-            account = (Account) ((AjaxAuthenticationToken) principal).getPrincipal();
-        }
-        model.addAttribute("username", account.getUsername());
-        model.addAttribute("exception", exception);
+		}else if(principal instanceof AjaxAuthenticationToken){
+			account = (Account) ((AjaxAuthenticationToken) principal).getPrincipal();
+		}
 
-        return "user/login/denied";
-    }
+		model.addAttribute("username", account.getUsername());
+		model.addAttribute("exception", exception);
+
+		return "user/login/denied";
+	}
 }
