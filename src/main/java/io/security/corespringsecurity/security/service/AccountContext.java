@@ -1,22 +1,22 @@
 package io.security.corespringsecurity.security.service;
 
-import io.security.corespringsecurity.domain.Account;
-import io.security.corespringsecurity.domain.AccountDto;
+import io.security.corespringsecurity.domain.entity.Account;
+import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 
-import java.util.Collection;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
+@Data
 public class AccountContext extends User {
+  private Account account;
 
-    private final Account account;
-
-    public AccountContext(Account account, Collection<? extends GrantedAuthority> authorities) {
-        super(account.getUsername(), account.getPassword(),authorities);
-        this.account = account;
-    }
-
-    public Account getAccount() {
-        return account;
-    }
+  public AccountContext(Account account, List<GrantedAuthority> roles) {
+    super(account.getUsername(), account.getPassword(), roles);
+    this.account = account;
+  }
 }

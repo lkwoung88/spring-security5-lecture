@@ -1,7 +1,5 @@
 package io.security.corespringsecurity.security.configs;
 
-import org.springframework.security.config.annotation.web.HttpSecurityBuilder;
-
 import io.security.corespringsecurity.security.filter.AjaxLoginProcessingFilter;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.HttpSecurityBuilder;
@@ -14,7 +12,6 @@ import org.springframework.security.web.authentication.session.SessionAuthentica
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 
-// custom security config
 public final class AjaxLoginConfigurer<H extends HttpSecurityBuilder<H>> extends
         AbstractAuthenticationFilterConfigurer<H, AjaxLoginConfigurer<H>, AjaxLoginProcessingFilter> {
 
@@ -53,11 +50,6 @@ public final class AjaxLoginConfigurer<H extends HttpSecurityBuilder<H>> extends
         }
         http.setSharedObject(AjaxLoginProcessingFilter.class,getAuthenticationFilter());
         http.addFilterBefore(getAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
-    }
-
-    @Override
-    public AjaxLoginConfigurer<H> loginPage(String loginPage) {
-        return super.loginPage(loginPage);
     }
 
     public AjaxLoginConfigurer<H> successHandlerAjax(AuthenticationSuccessHandler successHandler) {
