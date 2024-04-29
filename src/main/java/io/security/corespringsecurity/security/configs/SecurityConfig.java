@@ -163,7 +163,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public FilterInvocationSecurityMetadataSource urlFilterInvocationSecurityMetadataSource() {
-        return new UrlFilterInvocationSecurityMetadataSource(urlResourcesMapFactoryBean().getObject());
+        return new UrlFilterInvocationSecurityMetadataSource(urlResourcesMapFactoryBean().getObject(), securityResourceService);
     }
 
     @Bean
