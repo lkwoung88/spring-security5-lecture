@@ -26,7 +26,7 @@ import java.util.Set;
 
 @Controller
 public class UserController {
-	
+
 	@Autowired
 	private UserService userService;
 
@@ -78,6 +78,8 @@ public class UserController {
 //		Account account4 = (Account) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 //		String username4 = account4.getUsername();
 //		System.out.println("username4 = " + username4);
+
+		userService.order();
 
 		return "user/mypage";
 	}
