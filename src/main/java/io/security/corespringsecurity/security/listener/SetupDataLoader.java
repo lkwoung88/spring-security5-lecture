@@ -3,7 +3,9 @@
 //import io.security.corespringsecurity.domain.entity.Account;
 //import io.security.corespringsecurity.domain.entity.Resources;
 //import io.security.corespringsecurity.domain.entity.Role;
+//import io.security.corespringsecurity.domain.entity.RoleHierarchy;
 //import io.security.corespringsecurity.repository.ResourcesRepository;
+//import io.security.corespringsecurity.repository.RoleHierarchyRepository;
 //import io.security.corespringsecurity.repository.RoleRepository;
 //import io.security.corespringsecurity.repository.UserRepository;
 //import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +37,8 @@
 //    private PasswordEncoder passwordEncoder;
 //
 //    private static AtomicInteger count = new AtomicInteger(0);
+//    @Autowired
+//    private RoleHierarchyRepository roleHierarchyRepository;
 //
 //    @Override
 //    @Transactional
@@ -49,6 +53,25 @@
 //        alreadySetup = true;
 //    }
 //
+//    @Transactional
+//    public void createRoleHierarchyIfNotFound(Role childRole, Role parentRole) {
+//        RoleHierarchy roleHierarchy = roleHierarchyRepository.findByChildName(parentRole.getRoleName());
+//        if(roleHierarchy == null) {
+//            roleHierarchy = RoleHierarchy.builder()
+//                    .childName(parentRole.getRoleName())
+//                    .build();
+//        }
+//        RoleHierarchy parentRoleHierarchy = roleHierarchyRepository.save(roleHierarchy);
+//
+//        roleHierarchy = roleHierarchyRepository.findByChildName(childRole.getRoleName());
+//        if(roleHierarchy == null) {
+//            roleHierarchy = RoleHierarchy.builder()
+//                    .childName(childRole.getRoleName())
+//                    .build();
+//        }
+//        RoleHierarchy childRoleHierarchy = roleHierarchyRepository.save(roleHierarchy);
+//        childRoleHierarchy.setParentName(parentRoleHierarchy);
+//    }
 //
 //
 //    private void setupSecurityResources() {
@@ -58,21 +81,21 @@
 //        createResourceIfNotFound("/admin/**", "", roles, "url");
 //        Account account = createUserIfNotFound("admin", "pass", "admin@gmail.com", 10,  roles);
 //
-////        Set<Role> roles1 = new HashSet<>();
-////
-////        Role managerRole = createRoleIfNotFound("ROLE_MANAGER", "매니저");
-////        roles1.add(managerRole);
-////        createResourceIfNotFound("io.security.corespringsecurity.aopsecurity.method.AopMethodService.methodTest", "", roles1, "method");
-////        createResourceIfNotFound("io.security.corespringsecurity.aopsecurity.method.AopMethodService.innerCallMethodTest", "", roles1, "method");
-////        createResourceIfNotFound("execution(* io.security.corespringsecurity.aopsecurity.pointcut.*Service.*(..))", "", roles1, "pointcut");
-////        createUserIfNotFound("manager", "pass", "manager@gmail.com", 20, roles1);
-////
-////        Set<Role> roles3 = new HashSet<>();
-////
-////        Role childRole1 = createRoleIfNotFound("ROLE_USER", "회원");
-////        roles3.add(childRole1);
-////        createResourceIfNotFound("/users/**", "", roles3, "url");
-////        createUserIfNotFound("user", "pass", "user@gmail.com", 30, roles3);
+//        Set<Role> roles1 = new HashSet<>();
+//
+//        Role managerRole = createRoleIfNotFound("ROLE_MANAGER", "매니저");
+//        roles1.add(managerRole);
+//        createResourceIfNotFound("io.security.corespringsecurity.aopsecurity.method.AopMethodService.methodTest", "", roles1, "method");
+//        createResourceIfNotFound("io.security.corespringsecurity.aopsecurity.method.AopMethodService.innerCallMethodTest", "", roles1, "method");
+//        createResourceIfNotFound("execution(* io.security.corespringsecurity.aopsecurity.pointcut.*Service.*(..))", "", roles1, "pointcut");
+//        createUserIfNotFound("manager", "pass", "manager@gmail.com", 20, roles1);
+//
+//        Set<Role> roles3 = new HashSet<>();
+//
+//        Role childRole1 = createRoleIfNotFound("ROLE_USER", "회원");
+//        roles3.add(childRole1);
+//        createResourceIfNotFound("/users/**", "", roles3, "url");
+//        createUserIfNotFound("user", "pass", "user@gmail.com", 30, roles3);
 //
 //    }
 //
