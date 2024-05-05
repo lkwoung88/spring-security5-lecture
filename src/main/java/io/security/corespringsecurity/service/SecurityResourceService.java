@@ -65,4 +65,20 @@ public class SecurityResourceService {
         List<String> accessList = accessIpRepository.findAll().stream().map(accessIp -> accessIp.getIpAddress()).collect(Collectors.toList());
         return accessList;
     }
+
+    public LinkedHashMap<String, List<ConfigAttribute>> getPointcutResourceList() {
+        LinkedHashMap<String, List<ConfigAttribute>> result = new LinkedHashMap<>();
+        List<Resources> resourcesList = resourcesRepository.findAllPointcutResources();
+
+        resourcesList.forEach(re ->
+                {
+                    List<ConfigAttribute> configAttributeList = new ArrayList<>();
+                    re.getRoleSet().forEach(ro -> {
+                        configAttributeList.add(new SecurityConfig(ro.getRoleName()));
+                    });
+                    result.put(re.getResourceName(), configAttributeList);
+                }
+        );
+        return result;
+    }
 }
