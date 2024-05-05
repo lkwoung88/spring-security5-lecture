@@ -37,8 +37,25 @@ public class SecurityResourceService {
                     List<ConfigAttribute> configAttributeList = new ArrayList<>();
                     re.getRoleSet().forEach(ro -> {
                         configAttributeList.add(new SecurityConfig(ro.getRoleName()));
-                        result.put(new AntPathRequestMatcher(re.getResourceName()), configAttributeList);
                     });
+                    result.put(new AntPathRequestMatcher(re.getResourceName()), configAttributeList);
+                }
+        );
+        return result;
+    }
+
+    public LinkedHashMap<String, List<ConfigAttribute>> getMethodResourceList() {
+
+        LinkedHashMap<String, List<ConfigAttribute>> result = new LinkedHashMap<>();
+        List<Resources> resourcesList = resourcesRepository.findAllMethodResources();
+
+        resourcesList.forEach(re ->
+                {
+                    List<ConfigAttribute> configAttributeList = new ArrayList<>();
+                    re.getRoleSet().forEach(ro -> {
+                        configAttributeList.add(new SecurityConfig(ro.getRoleName()));
+                    });
+                    result.put(re.getResourceName(), configAttributeList);
                 }
         );
         return result;
@@ -47,5 +64,21 @@ public class SecurityResourceService {
     public List<String> getAccessIpList() {
         List<String> accessList = accessIpRepository.findAll().stream().map(accessIp -> accessIp.getIpAddress()).collect(Collectors.toList());
         return accessList;
+    }
+
+    public LinkedHashMap<String, List<ConfigAttribute>> getPointcutResourceList() {
+        LinkedHashMap<String, List<ConfigAttribute>> result = new LinkedHashMap<>();
+        List<Resources> resourcesList = resourcesRepository.findAllPointcutResources();
+
+        resourcesList.forEach(re ->
+                {
+                    List<ConfigAttribute> configAttributeList = new ArrayList<>();
+                    re.getRoleSet().forEach(ro -> {
+                        configAttributeList.add(new SecurityConfig(ro.getRoleName()));
+                    });
+                    result.put(re.getResourceName(), configAttributeList);
+                }
+        );
+        return result;
     }
 }
